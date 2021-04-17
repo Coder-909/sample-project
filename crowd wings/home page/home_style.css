@@ -1,26 +1,11 @@
-body,html{
-	width:100%;
-	height:100%;
-}
-
-body{
-	background: #E8E8E8;
-}
-
-*{
-	margin:0px;
-	padding:0px;
-}
-input:focus {
-	outline:none;
-}
-
 nav{
 	position: fixed;
 	top:0%;
 	width:100%;
-	height:9%;
-	background: #002153;
+	height:11%;
+	display:grid;
+	grid-template-columns:50% 30% 20%;
+	background: var(--pblue);
 	overflow: hidden;	
 }
 nav h1{
@@ -30,9 +15,9 @@ nav h1{
 	font-style: normal;
 	font-weight: bold;
 	display: inline;
-	line-height: 1.7em;
-	margin:0em 1em 0em 2em;
-	width:35%;
+	margin:0.45em 1em 0em 2em;
+	min-width:35%;
+	height:60%;
 }
 
 nav ul{
@@ -45,7 +30,7 @@ nav ul li{
 	float:left;
 }
 nav ul li a{
-	padding:1.28em;
+	padding:1.45em 2em;
 	font-family: Roboto,san-serif;
 	display:block;
 	text-decoration: none;
@@ -54,31 +39,90 @@ nav ul li a{
 	transition: background-color .3s;
 }
 
-nav ul li a:hover{
-	background-color: #FF3D00;
+nav ul li a i{
+	font-size:24px;
+	transition:color 0.3s;
 }
 
-#search-bar{
-	margin:7.8% 10% 0% 26.1%;
+nav ul li a:hover > i{
+	color: var(--sred);
 }
 
-#search-bar input{
-	padding:0.7em 0.7em 0.7em 1.1em;
-	font-size:1em;
-	border:none;
+nav #nav-account{
+	max-width:60%;
+	max-height:65%;
+	margin:4% 2% 0% 2%;
 	border-radius:18px;
-	box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.25);
-	width:87%;
-	transition: box-shadow .3s;
+	background:var(--pblue);
+	transition:background 0.2s;
 }
-#search-bar input:hover{
-	box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.3);
+nav #nav-account:hover{
+	background:#374F7A;
+}
+
+nav #nav-account img{
+	width:50px;
+	height:50px;
+	margin:0% 0% -11% 0%;
+}
+
+nav #nav-account span{
+	text-decoration:none;
+	font-family:Roboto;
+	color:white;
+	font-size:20px;
+	padding:-9% 0% 0% 0%;
+}
+#left-bar{
+	position:fixed;
+	left:6%;
+	top:18%;
+	min-width:15%;
+	display:grid;
+	grid-template-columns:100%;
+	grid-row-gap:5%
+}
+
+#auth-option{
+	display:grid;
+	grid-template-columns:100%;
+	grid-row-gap:2%;
+}	
+
+#auth-option a,#auth-option span{
+	display:block;
+	padding:4% 5%;
+	text-align:center;
+}
+
+#auth-option a{
+	text-decoration:none;
+	background:var(--syellow);
+	color:black;
+	font-weight:bold;
+	font-family:Roboto;
+	border-radius:15px;
+	transition:background 0.3s;
+}
+
+#auth-option a:hover{
+	background:var(--sred);
+	color:white;
+
+}
+
+#auth-option span{
+	color:gray;
 }
 
 #related-topics{
-	position:fixed;
-	left:6%;
-	top:25%;
+	padding:0em 0.8em 0.8em 0.8em;
+	border-radius:10px;
+	transition: background 0.2s;
+}
+
+#related-topics:hover{
+	background-color: rgba(0,0,0,0.07);
 }
 
 #related-topics h1{
@@ -86,21 +130,23 @@ nav ul li a:hover{
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 1.5em;
 	line-height: 23px;
 }
 
 #related-topics ul{
 	list-style-type: none;
 }
+
 #related-topics ul li{
 	padding:0.5em 0.5em 0.5em 0em;
 }
+
 #related-topics ul li img{
 	width:15%;
 	width:15%;
 	opacity: 0.5;
-	margin:0em 0em -0.68em 0em;
+	margin:0em 0em -0.58em 0em;
 }
 #related-topics ul li a{
 	text-decoration: none;
@@ -108,6 +154,7 @@ nav ul li a:hover{
 	line-height: -2em;
 	padding:0em 0.5em 0em 0.2em;
 	font-family: Roboto;
+	font-size:1em;
 }
 
 #related-topics ul li a:hover{
@@ -117,13 +164,44 @@ nav ul li a:hover{
 	margin:0em 0em 0em 0em;
 }
 
+#search-bar{
+	position:fixed;
+	margin:-5% 10% 0% 24%;
+	width:56%;
+}
+
+#search-bar input{
+	padding:0.7em 0.7em 0.7em 1.1em;
+	font-size:1em;
+	border:none;
+	border-radius:18px;
+	box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.25);
+	width:100%;
+	transition: box-shadow .3s;
+}
+#search-bar input:hover{
+	box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.3);
+}
+
+#search-bar input:focus{
+	border:1px solid var(--sred);
+	box-shadow:0px 0px 8px 0px var(--sred);
+}	
+
+#ques-area{
+	display:grid;
+	grid-template-columns:100%;
+	grid-row-gap:3em;
+	width:58%;
+	margin:13% 5% 10% 24%;	
+	
+}
 .ques-box{
 	background: white;
-	width:58%;
+	width:100%;
 	min-height: 30%;
 	box-shadow: 2px 4px 10px 3px rgba(0, 0, 0, 0.25);
 	border-radius:18px;
-	margin:3em 1em 0em 22em;
 }
 
 .ques-box .ques-info{
@@ -138,25 +216,25 @@ nav ul li a:hover{
 }
 
 .ques-box .ques-info .name{
-	color:#002153;
+	color:var(--pblue);
 	font-family: Roboto;
 	font-weight: bold;
 	font-size: 1.3em;
 }
 .ques-box .ques-info .name a{
 	text-decoration: none;
-	color:#002153;
+	color:var(--pblue);
 }
 
 .ques-box .ques-info .date{
 	margin:0em 0.5em 0.3em 0.8em;
 	font-family: Roboto;
-	color:#002153;
+	color:var(--pblue);
 }
 
 .ques-box .ques-info .status{
 	font-family: Roboto;
-	color:#002153;
+	color:var(--pblue);
 }
 
 .ques-box .ques{
@@ -165,7 +243,7 @@ nav ul li a:hover{
 }
 
 .ques-box .ques-options{
-	margin:1em 1em 1.5em 2em;
+	margin:1em 1em 1em 2em;
 }
 
 .ques-box .ques-options ul{
@@ -182,15 +260,7 @@ nav ul li a:hover{
 }
 
 .ques-box .ques-l-c{
-	padding:0.4em 1em 0.7em 1.8em;
-}
-
-.ques-box .ques-l-c img{
-	width:4%;
-	height:4%;
-	border-radius: 12px;
-	padding:0.5em;
-	transition: background-color .3s;
+	padding:0.2em 1em 0.7em 1.8em;
 }
 
 .ques-box .ques-l-c a{
@@ -200,6 +270,14 @@ nav ul li a:hover{
 	margin:0em 0.8em 0em 0em;	 
 }
 
-.ques-box .ques-l-c img:hover{
-	background-color: rgba(0,0,0,0.25)
+.ques-box .ques-l-c i{
+	color:var(--pblue);
+	padding:1.5%;
+	font-size:28px;
+	border-radius:18px;
+	transition:all .2s;
+}
+.ques-box .ques-l-c i:hover{
+	color:white;
+	background:var(--pblue);
 }
