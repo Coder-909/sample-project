@@ -1,6 +1,7 @@
 let data = [
 	{
 		username:"Samarth",
+		id:101,
 		image:"./circle.svg",
 		profile_link:"#",
 		date:"14 january",
@@ -9,19 +10,23 @@ let data = [
 		ques_options:[
 			{
 				choice:"1",
-				votes:4
+				id:0,
+				votes:0
 			},
 			{
 				choice:"2",
-				votes:100
+				id:1,
+				votes:0
 			},
 			{
 				choice:"3",
-				votes:9
+				id:2,
+				votes:0
 			},
 			{
 				choice:"4",
-				votes:4
+				id:3,
+				votes:0
 			}
 		],
 		likes:5,
@@ -29,6 +34,7 @@ let data = [
 	},
 	{
 		username:"Vimal",
+		id:102,
 		image:"./circle.svg",
 		profile_link:"#",
 		date:"14 April",
@@ -37,27 +43,33 @@ let data = [
 		ques_options:[
 			{
 				choice:"Java",
-				votes:40
-			},
-			{
-				choice:"Python",
-				votes:100
-			},
-			{
-				choice:"Javascript",
-				votes:80
-			},
-			{
-				choice:"C/C++",
+				id:0,
 				votes:10
 			},
 			{
+				choice:"Python",
+				id:1,
+				votes:20
+			},
+			{
+				choice:"Javascript",
+				id:2,
+				votes:12
+			},
+			{
+				choice:"C/C++",
+				id:3,
+				votes:7
+			},
+			{
 				choice:"C#",
-				votes:40
+				id:4,
+				votes:7
 			},
 			{
 				choice:"Other",
-				votes:5
+				id:5,
+				votes:3
 			}
 		],
 		likes:0,
@@ -71,6 +83,7 @@ const quesArea = document.getElementById("ques-area");
 for (var i = 0; i < data.length; i++) {
 	let quesBox = document.createElement("div");
 	quesBox.setAttribute("class","ques-box");
+	quesBox.setAttribute("id",data[i].id);
 
 	let quesInfo = document.createElement("div")
 	quesInfo.setAttribute("class","ques-info");
@@ -112,16 +125,9 @@ for (var i = 0; i < data.length; i++) {
 
 	for(let j = 0; j < data[i].ques_options.length;j++){
 		let choice = document.createElement("label");
-		choice.setAttribute("class","choice");
+		choice.className = "choice " + (data[i].ques_options[j].id).toString();
 		choice.setAttribute("votes",data[i].ques_options[j].votes);
-		// let input = document.createElement("input");
-		// input.setAttribute("type","radio");
-		// input.setAttribute("name",i)
-		// input.setAttribute("value",data[i].ques_options[j].choice);
-		// choice.appendChild(input);
-		let span = document.createElement("span");
-		span.innerText = data[i].ques_options[j].choice;
-		choice.appendChild(span);
+		choice.innerText = data[i].ques_options[j].choice;
 		quesOptions.appendChild(choice);
 	}
 
@@ -150,7 +156,7 @@ for (var i = 0; i < data.length; i++) {
 	quesArea.appendChild(quesBox);
 }
 
-// Chaning the polling by putting event listeners on quesboxs
+// Chaning the polling by putting event listeners on quesboxes
 
 const quesBox = document.getElementsByClassName("ques-box");
 
@@ -158,36 +164,49 @@ for(let i = 0;i<quesBox.length;i++){
 	let choices = quesBox[i].childNodes[2].childNodes;
 	for(j = 0; j < choices.length;j++){	
 		choices[j].addEventListener('click',(e) => {
-			removeClass(choices);
-			e.target.setAttribute("class","active");
-			// e.target.setAttribute("votes",data[i].ques_options[j].votes + 1)
-			// data[i].ques_options[j].votes += 1;
-			changePolls(choices,e)
+			resetcolor(choices);
+			e.target.style.background = "var(--sred)";
+			e.target.style.color = "white";
+			let quesIndex = searchData(
+				e.target.parentElement.parentElement.getAttribute("id")
+			);
+			let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
+
+			data[quesIndex].ques_options[choiceIndex].votes += 1;
+			changePolls(choices,quesIndex,choiceIndex);
 		})
 	}
 }
 
 
 
-function removeClass(elements){
+function resetcolor(elements){
 	for(let i = 0; i<elements.length;i++){
-		elements[i].setAttribute("class","");
+		elements[i].style.background = "white";
+		elements[i].style.color = "black"
 	}
 }
 
-function changePolls(elements,e){
+function changePolls(elements,qi,ci){
 	let totalVotes = 0;
 
-	for(let i = 0; i<elements.length;i++){
-		totalVotes += parseInt(elements[i].getAttribute("votes"));
+	for(let i = 0; i<data[qi].ques_options.length;i++){
+		totalVotes += parseInt(data[qi].ques_options[i].votes);
 	}
-	console.log(totalVotes);
 
-	for(let i = 0; i<elements.length;i++){
-		let votes = parseInt(elements[i].getAttribute("votes"));
+	for(let i = 0; i<data[qi].ques_options.length;i++){
+		let votes = parseInt(data[qi].ques_options[i].votes);
 		let newWidth = ((votes/totalVotes) * 40).toString();
 		elements[i].style.width = `${newWidth}em`
 	}
 }
 
-
+function searchData(id){
+	let quesIndex = 0;
+	for(let i = 0; i< data.length;i++){
+		if(data[i].id == id){
+			quesIndex = i;
+		}
+	}
+	return quesIndex;
+}
