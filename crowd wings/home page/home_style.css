@@ -244,19 +244,27 @@ nav #nav-account span{
 
 .ques-box .ques-options{
 	margin:1em 1em 1em 2em;
+	display:grid;
+	grid-template-columns: 100%;
+	grid-row-gap:1em;
 }
 
-.ques-box .ques-options ul{
-	list-style-type: none;
-}
-
-.ques-box .ques-options ul li{
-	padding:0.3em 1em 0em 0em;
-	font-size: 1.3em;
-}
-.ques-box .ques-options ul li span{
-	padding:0em 0em 0em 0.5em;
+.ques-box .ques-options label{
+	display:block;
+	cursor:pointer;
+	padding:0.5em 1em;
+	border:1px solid var(--pblue);
+	width:40em;
+	border-radius:10px;
 	font-family: Roboto;
+	user-select: none;
+	color:black;
+	transition: width 0.5s,background-color 0.3s;
+}
+
+.ques-box .ques-options label.active{
+	background-color: var(--sred);
+	color:white;
 }
 
 .ques-box .ques-l-c{
