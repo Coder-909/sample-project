@@ -2,43 +2,47 @@ let data = [
 	{
 		username:"Samarth",
 		id:101,
-		image:"./circle.svg",
+		image:"../circle.svg",
 		profile_link:"#",
 		date:"14 january",
 		status:"Student",
+		likes:5,
+		comment:0,
+		voted:false,
 		ques:"This is the from domd manipulation",
 		ques_options:[
 			{
 				choice:"1",
 				id:0,
-				votes:0
+				votes:3
 			},
 			{
 				choice:"2",
 				id:1,
-				votes:0
+				votes:2
 			},
 			{
 				choice:"3",
 				id:2,
-				votes:0
+				votes:4
 			},
 			{
 				choice:"4",
 				id:3,
-				votes:0
+				votes:1
 			}
-		],
-		likes:5,
-		comment:0
+		]
 	},
 	{
 		username:"Vimal",
 		id:102,
-		image:"./circle.svg",
+		image:"../circle.svg",
 		profile_link:"#",
 		date:"14 April",
 		status:"Trainee",
+		likes:0,
+		comment:0,
+		voted:true,
 		ques:"Which is the best programming language for machine learning",
 		ques_options:[
 			{
@@ -71,11 +75,21 @@ let data = [
 				id:5,
 				votes:3
 			}
-		],
-		likes:0,
-		comment:0
+		]
 	}
 ]
+
+// Calculating the total votes
+function totalVotes(qi){
+	let totalvotes = 0;
+
+	for(let i = 0; i<data[qi].ques_options.length;i++){
+		totalvotes += parseInt(data[qi].ques_options[i].votes);
+	}
+
+	return totalvotes;
+}
+
 // Creating all the ques box from data
 
 const quesArea = document.getElementById("ques-area");
@@ -120,6 +134,12 @@ for (var i = 0; i < data.length; i++) {
 	ques.innerText = data[i].ques;
 	quesBox.appendChild(ques);
 
+	let total_votes = document.createElement("span");
+	total_votes.setAttribute("class","totalVotes");
+	let tv = totalVotes(i);
+	total_votes.innerText = tv + " votes";
+	quesBox.appendChild(total_votes)
+
 	let quesOptions = document.createElement("div");
 	quesOptions.setAttribute("class", "ques-options");
 
@@ -156,49 +176,23 @@ for (var i = 0; i < data.length; i++) {
 	quesArea.appendChild(quesBox);
 }
 
-// Chaning the polling by putting event listeners on quesboxes
-
-const quesBox = document.getElementsByClassName("ques-box");
-
-for(let i = 0;i<quesBox.length;i++){
-	let choices = quesBox[i].childNodes[2].childNodes;
-	for(j = 0; j < choices.length;j++){	
-		choices[j].addEventListener('click',(e) => {
-			resetcolor(choices);
-			e.target.style.background = "var(--sred)";
-			e.target.style.color = "white";
-			let quesIndex = searchData(
-				e.target.parentElement.parentElement.getAttribute("id")
-			);
-			let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
-
-			data[quesIndex].ques_options[choiceIndex].votes += 1;
-			changePolls(choices,quesIndex,choiceIndex);
-		})
-	}
-}
 
 
-
-function resetcolor(elements){
+function addRandomStyle(elements){
+	let colors = randomColor();
 	for(let i = 0; i<elements.length;i++){
-		elements[i].style.background = "white";
-		elements[i].style.color = "black"
+		elements[i].style.background = colors[i];
+		elements[i].style.color = "black";
+		elements[i].style.boxShadow = "";
+		elements[i].style.border = `1px solid ${colors[i]}`;
 	}
 }
 
-function changePolls(elements,qi,ci){
-	let totalVotes = 0;
-
-	for(let i = 0; i<data[qi].ques_options.length;i++){
-		totalVotes += parseInt(data[qi].ques_options[i].votes);
-	}
-
-	for(let i = 0; i<data[qi].ques_options.length;i++){
-		let votes = parseInt(data[qi].ques_options[i].votes);
-		let newWidth = ((votes/totalVotes) * 40).toString();
-		elements[i].style.width = `${newWidth}em`
-	}
+function selectedStyle(e){
+	e.target.style.background = "var(--sred)";
+	e.target.style.color = "white";
+	e.target.style.boxShadow = "0px 0px 10px 4px var(--sred)";	
+	e.target.style.border = "0px";
 }
 
 function searchData(id){
@@ -209,4 +203,110 @@ function searchData(id){
 		}
 	}
 	return quesIndex;
+}
+
+function randomColor(){
+	let arr = ["#8AFF19","#00EAFF","#FFB321","#2475FF","#607D8B","#11FF21","#F84EFF"]
+
+	var currentIndex = arr.length, temporaryValue, randomIndex;
+
+  	// While there remain elements to shuffle...
+  	while (0 !== currentIndex) {
+	    randomIndex = Math.floor(Math.random() * currentIndex);
+	    currentIndex -= 1;
+	    temporaryValue = arr[currentIndex];
+	    arr[currentIndex] = arr[randomIndex];
+	    arr[randomIndex] = temporaryValue;
+	}	
+  	return arr;
+}
+
+function changePolls(elements,qi){
+	let total_votes = totalVotes(qi);
+
+	for(let i = 0; i<data[qi].ques_options.length;i++){
+		let votes = parseInt(data[qi].ques_options[i].votes);
+		let newWidth = ((votes/total_votes) * 40).toString();
+		elements[i].style.width = `${newWidth}em`
+	}
+}
+
+
+// Chaning the polling by putting event listeners on quesboxes
+
+const quesBox = document.getElementsByClassName("ques-box");
+
+for(let i = 0;i<quesBox.length;i++){
+	let choices = quesBox[i].childNodes[3].childNodes;
+
+	addRandomStyle(choices);
+	let quesIndex = i;
+	changePolls(choices,quesIndex);
+	
+
+	for(j = 0; j < choices.length;j++){	
+
+		choices[j].addEventListener('click',(e) => {
+			addRandomStyle(choices);
+			selectedStyle(e);
+
+			let quesIndex = searchData(e.target.parentElement.parentElement.getAttribute("id"));
+			let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
+			data[quesIndex].ques_options[choiceIndex].votes += 1;
+
+
+			let total_votes = totalVotes(i);
+			console.log(quesIndex)
+			let spanTotalVotes = document.getElementsByClassName("	totalVotes")[quesIndex];
+			spanTotalVotes.innerText = total_votes + " votes";
+
+			changePolls(choices,quesIndex);
+		})
+	}
+}
+
+
+
+function addRandomStyle(elements){
+	let colors = randomColor();
+	for(let i = 0; i<elements.length;i++){
+		//console.log(elements)
+		elements[i].style.background = colors[i];
+		elements[i].style.color = "black";
+		elements[i].style.boxShadow = "";
+		elements[i].style.border = `1px solid ${colors[i]}`;
+	}
+}
+
+function selectedStyle(e){
+	e.target.style.background = "var(--sred)";
+	e.target.style.color = "white";
+	e.target.style.boxShadow = "0px 0px 10px 4px var(--sred)";	
+	e.target.style.border = "0px";
+}
+
+function searchData(id){
+	let quesIndex = 0;
+	for(let i = 0; i< data.length;i++){
+		if(data[i].id == id){
+			quesIndex = i;
+		}
+	}
+	return quesIndex;
+}
+
+function randomColor(){
+	let arr = ["#8AFF19","#00EAFF","#FFB321","#2475FF","#607D8B","#11FF21","#F84EFF"]
+
+	var currentIndex = arr.length, temporaryValue, randomIndex;
+
+  	// While there remain elements to shuffle...
+  	while (0 !== currentIndex) {
+	    randomIndex = Math.floor(Math.random() * currentIndex);
+	    currentIndex -= 1;
+	    temporaryValue = arr[currentIndex];
+	    arr[currentIndex] = arr[randomIndex];
+	    arr[randomIndex] = temporaryValue;
+	}	
+  	return arr;
 }
