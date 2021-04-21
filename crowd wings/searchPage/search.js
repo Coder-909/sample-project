@@ -1,4 +1,4 @@
-let data = [
+let searchData = [
 	{
 		username:"Samarth",
 		id:101,
@@ -78,119 +78,211 @@ let data = [
 		]
 	},
 	{
-		username:"Vimal",
+		username:"Samarth",
 		id:102,
 		image:"../circle.svg",
 		profile_link:"#",
-		date:"14 April",
-		status:"Trainee",
-		likes:0,
+		date:"14 january",
+		status:"Student",
+		likes:5,
 		comment:0,
-		voted:true,
-		ques:"Which is the best programming language for machine learning",
+		voted:false,
+		ques:"When do think covid-19 cases will start declining?",
 		ques_options:[
 			{
-				choice:"Java",
+				choice:"In April",
 				id:0,
-				votes:10
-			},
-			{
-				choice:"Python",
-				id:1,
-				votes:20
-			},
-			{
-				choice:"Javascript",
-				id:2,
-				votes:12
-			},
-			{
-				choice:"C/C++",
-				id:3,
-				votes:7
-			},
-			{
-				choice:"C#",
-				id:4,
-				votes:7
-			},
-			{
-				choice:"Other",
-				id:5,
 				votes:3
+			},
+			{
+				choice:"In May-July",
+				id:1,
+				votes:5
+			},
+			{
+				choice:"In August-October",
+				id:2,
+				votes:6
+			},
+			{
+				choice:"Even later(comment)",
+				id:3,
+				votes:1
 			}
 		],
 		comments:[
 			{
-				username:"username",
-				profileLink:"#",
-				ppic: "../circle.svg",
-				time:"12:27 AM",
-				comment:"Python is the best for machine learning!"
-			},
-			{
-				username:"ayush123",
-				profileLink:"#",
-				ppic: "../circle.svg",
-				time:"1:24 AM",
-				comment:"First one!"
-			},
-			{
-				username:"Levi",
-				profileLink:"#",
-				ppic: "../circle.svg",
-				time:"1:33 AM",
-				comment:"Which language would you recomment for starting with maching learning?"
-			},
-			{
-				username:"abc312",
+				username:"ab123",
 				profileLink:"#",
 				ppic: "../circle.svg",
 				time:"12:24 AM",
-				comment:"For starters python is a good language for maching learning."
+				comment:"Looking at the current daily cases NOT SOON!"
+			},
+			{
+				username:"coder",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:24 AM",
+				comment:"If the variant is like before it could start declining in August-October."
+			},
+			{
+				username:"Gamer202",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:35 AM",
+				comment:"In May-July, I hope so."
+			},
+			{
+				username:"code-007",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:40 AM",
+				comment:"It is dependent on various factors so cannot be certain."
+			},
+			{
+				username:"john404",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:50 AM",
+				comment:"The new Variant is more deadly so not very soon I think."
+			},
+			{
+				username:"anoynmous321",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"2:00 AM",
+				comment:"I think in late June or July."
 			}
 		]
-	}
+	},
+	{
+		username:"Samarth",
+		id:103,
+		image:"../circle.svg",
+		profile_link:"#",
+		date:"14 january",
+		status:"Student",
+		likes:5,
+		comment:0,
+		voted:false,
+		ques:"When do think covid-19 cases will start declining?",
+		ques_options:[
+			{
+				choice:"In April",
+				id:0,
+				votes:3
+			},
+			{
+				choice:"In May-July",
+				id:1,
+				votes:5
+			},
+			{
+				choice:"In August-October",
+				id:2,
+				votes:200
+			},
+			{
+				choice:"Even later(comment)",
+				id:3,
+				votes:1
+			}
+		],
+		comments:[
+			{
+				username:"ab123",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"12:24 AM",
+				comment:"Looking at the current daily cases NOT SOON!"
+			},
+			{
+				username:"coder",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:24 AM",
+				comment:"If the variant is like before it could start declining in August-October."
+			},
+			{
+				username:"Gamer202",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:35 AM",
+				comment:"In May-July, I hope so."
+			},
+			{
+				username:"code-007",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:40 AM",
+				comment:"It is dependent on various factors so cannot be certain."
+			},
+			{
+				username:"john404",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"1:50 AM",
+				comment:"The new Variant is more deadly so not very soon I think."
+			},
+			{
+				username:"anoynmous321",
+				profileLink:"#",
+				ppic: "../circle.svg",
+				time:"2:00 AM",
+				comment:"I think in late June or July."
+			}
+		]
+	},
+
 ]
+
+// Making the dropdown list of account nav
+const navAccountBtn = document.getElementById("nav-account");
+const accountDropdown = document.getElementsByClassName("account-dropdown")[0];
+navAccountBtn.addEventListener('click',() => {
+	if(accountDropdown.style.display == "block"){
+		accountDropdown.style.display = "none";
+	}else{
+		accountDropdown.style.display = "block";
+	}
+})
 
 // Calculating the total votes
 function totalVotes(qi){
 	let totalvotes = 0;
 
-	for(let i = 0; i<data[qi].ques_options.length;i++){
-		totalvotes += parseInt(data[qi].ques_options[i].votes);
+	for(let i = 0; i<searchData[qi].ques_options.length;i++){
+		totalvotes += parseInt(searchData[qi].ques_options[i].votes);
 	}
 
 	return totalvotes;
 }
 
-// Creating all the ques box from data
-
 const quesArea = document.getElementById("ques-area");
 
-for (var i = 0; i < data.length; i++) {
+for (var i = 0; i < searchData.length; i++) {
 	let quesBox = document.createElement("div");
 	quesBox.setAttribute("class","ques-box");
-	quesBox.setAttribute("id",data[i].id);
+	quesBox.setAttribute("id",searchData[i].id);
 
 	let quesInfo = document.createElement("div")
 	quesInfo.setAttribute("class","ques-info");
 
 	let img = document.createElement("img");
-	img.setAttribute("src", data[i].image);
+	img.setAttribute("src", searchData[i].image);
 	quesInfo.appendChild(img);
 
 	let name = document.createElement("span");
 	name.setAttribute("class","name");
 	let a = document.createElement("a");
-	a.setAttribute("href",data[i].profile_link);
-	a.innerText = data[i].username;
+	a.setAttribute("href",searchData[i].profile_link);
+	a.innerText = searchData[i].username;
 	name.appendChild(a);
 	quesInfo.appendChild(name);
 
 	let date = document.createElement("span");
 	date.setAttribute("class","date");
-	date.innerText = data[i].date;
+	date.innerText = searchData[i].date;
 	quesInfo.appendChild(date);
 
 	let br = document.createElement("br");
@@ -198,14 +290,14 @@ for (var i = 0; i < data.length; i++) {
 
 	let status = document.createElement("span");
 	status.setAttribute("class","status");
-	status.innerText = data[i].status;
+	status.innerText = searchData[i].status;
 	quesInfo.appendChild(status);
 
 	quesBox.appendChild(quesInfo);
 
 	let ques = document.createElement("h1");
 	ques.setAttribute("class","ques");
-	ques.innerText = data[i].ques;
+	ques.innerText = searchData[i].ques;
 	quesBox.appendChild(ques);
 
 	let total_votes = document.createElement("span");
@@ -217,11 +309,11 @@ for (var i = 0; i < data.length; i++) {
 	let quesOptions = document.createElement("div");
 	quesOptions.setAttribute("class", "ques-options");
 
-	for(let j = 0; j < data[i].ques_options.length;j++){
+	for(let j = 0; j < searchData[i].ques_options.length;j++){
 		let choice = document.createElement("label");
-		choice.className = "choice " + (data[i].ques_options[j].id).toString();
-		choice.setAttribute("votes",data[i].ques_options[j].votes);
-		choice.innerText = data[i].ques_options[j].choice;
+		choice.className = "choice " + (searchData[i].ques_options[j].id).toString();
+		choice.setAttribute("votes",searchData[i].ques_options[j].votes);
+		choice.innerText = searchData[i].ques_options[j].choice;
 		quesOptions.appendChild(choice);
 	}
 
@@ -239,7 +331,7 @@ for (var i = 0; i < data.length; i++) {
 
 	let thSpan = document.createElement("span");
 	thSpan.setAttribute("class","likes");
-	thSpan.innerText = `${data[i].likes} likes`;
+	thSpan.innerText = `${searchData[i].likes} likes`;
 	thumbsUp.appendChild(thSpan);
 
 	queslc.appendChild(thumbsUp);
@@ -276,7 +368,7 @@ for (var i = 0; i < data.length; i++) {
 	let comments = document.createElement("div");
 	comments.className = "comments";
 
-	for(let j = 0; j < data[i].comments.length;j++){
+	for(let j = 0; j < searchData[i].comments.length;j++){
 		let hr = document.createElement("hr");
 		comments.appendChild(hr);
 
@@ -287,24 +379,24 @@ for (var i = 0; i < data.length; i++) {
 		commentInfo.className = "comment-info";
 
 		let profileImg = document.createElement("img");
-		profileImg.setAttribute("src",data[i].comments[j].ppic);
+		profileImg.setAttribute("src",searchData[i].comments[j].ppic);
 		commentInfo.appendChild(profileImg);
 
 		let username = document.createElement("p");
 		username.className = "username";
-		username.innerText = data[i].comments[j].username;
+		username.innerText = searchData[i].comments[j].username;
 		commentInfo.appendChild(username);
 
 		let time = document.createElement("p");
 		time.className = "time";
-		time.innerText = data[i].comments[j].time;
+		time.innerText = searchData[i].comments[j].time;
 		commentInfo.appendChild(time);
 
 		comment.appendChild(commentInfo);
 
 		let commentText = document.createElement("p");
 		commentText.className = "comment-text";
-		commentText.innerText = data[i].comments[j].comment;
+		commentText.innerText = searchData[i].comments[j].comment;
 
 		comment.appendChild(commentText);
 
@@ -317,6 +409,15 @@ for (var i = 0; i < data.length; i++) {
 	quesArea.appendChild(quesBox);
 }
 
+// Chaning the polling by putting event listeners on quesboxes
+const quesBox = document.getElementsByClassName("ques-box");
+
+for (let i = 0; i < quesBox.length; i++){
+	quesBox[i].addEventListener('click', () => {
+		let quesOptions = document.getElementsByClassName("ques-options")[i];
+		quesOptions.style.display = "grid";
+	})
+}
 
 
 function addRandomStyle(elements){
@@ -336,10 +437,10 @@ function selectedStyle(e){
 	e.target.style.border = "0px";
 }
 
-function searchData(id){
+function searchDatabase(id){
 	let quesIndex = 0;
-	for(let i = 0; i< data.length;i++){
-		if(data[i].id == id){
+	for(let i = 0; i< searchData.length;i++){
+		if(searchData[i].id == id){
 			quesIndex = i;
 		}
 	}
@@ -365,15 +466,12 @@ function randomColor(){
 function changePolls(elements,qi){
 	let total_votes = totalVotes(qi);
 
-	for(let i = 0; i<data[qi].ques_options.length;i++){
-		let votes = parseInt(data[qi].ques_options[i].votes);
+	for(let i = 0; i<searchData[qi].ques_options.length;i++){
+		let votes = parseInt(searchData[qi].ques_options[i].votes);
 		let newWidth = ((votes/total_votes) * 40).toString();
 		elements[i].style.width = `${newWidth}em`
 	}
 }
-
-// Chaning the polling by putting event listeners on quesboxes
-const quesBox = document.getElementsByClassName("ques-box");
 
 for(let i = 0;i<quesBox.length;i++){
 	let choices = quesBox[i].childNodes[3].childNodes;
@@ -381,20 +479,20 @@ for(let i = 0;i<quesBox.length;i++){
 	addRandomStyle(choices);
 	let quesIndex = i;
 	changePolls(choices,quesIndex);
-	
+
 	//Adding event listenerser on like button	
 	let like_btn = document.getElementsByClassName("like-btn")[i];
 	let likes = document.getElementsByClassName("likes")[i];
 	let like_btn_symbol = document.getElementsByClassName("like-btn-symbol")[i];
 	like_btn.addEventListener('click', () => {
 		if(likes.style.color == `var(--sred)`){
-			data[i].likes -= 1;
-			likes.innerText = `${data[i].likes} likes`;
+			searchData[i].likes -= 1;
+			likes.innerText = `${searchData[i].likes} likes`;
 			likes.style.color = `grey`;
 			like_btn_symbol.style.color = `grey`;
 		}else{
-			data[i].likes += 1;
-			likes.innerText = `${data[i].likes} likes`;
+			searchData[i].likes += 1;
+			likes.innerText = `${searchData[i].likes} likes`;
 			likes.style.color = `var(--sred)`;
 			like_btn_symbol.style.color = `var(--sred)`;
 		}
@@ -404,29 +502,28 @@ for(let i = 0;i<quesBox.length;i++){
 	let openCommentSection = document.getElementsByClassName("open-comment-section")[i];
 	let commentSection = document.getElementsByClassName("comment-section")[i];
 	openCommentSection.addEventListener('click', () => {
-		if(	commentSection.style.display === "none"){
-			commentSection.style.height = 'auto';
-			commentSection.style.display = "block";
-		}else{
+		if(	commentSection.style.display === "block"){
 			commentSection.style.height = '0%';
 			commentSection.style.display = "none";
+		}else{
+			commentSection.style.height = 'auto';
+			commentSection.style.display = "block";
 		}
 	})
 
 	for(j = 0; j < choices.length;j++){	
-
 		choices[j].addEventListener('click',(e) => {
 			addRandomStyle(choices);
 			selectedStyle(e);
 
-			let quesIndex = searchData(e.target.parentElement.parentElement.getAttribute("id"));
+			let quesIndex = searchDatabase(e.target.parentElement.parentElement.getAttribute("id"));
 			let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
-			data[quesIndex].ques_options[choiceIndex].votes += 1;
+			searchData[quesIndex].ques_options[choiceIndex].votes += 1;
 
 
 			let total_votes = totalVotes(i);
 			console.log(quesIndex)
-			let spanTotalVotes = document.getElementsByClassName("	totalVotes")[quesIndex];
+			let spanTotalVotes = document.getElementsByClassName("totalVotes")[quesIndex];
 			spanTotalVotes.innerText = total_votes + " votes";
 
 			changePolls(choices,quesIndex);

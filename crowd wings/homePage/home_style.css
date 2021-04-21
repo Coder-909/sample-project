@@ -8,6 +8,7 @@ nav{
 	justify-content: center;
 	align-items: center;
 	background: var(--pblue);
+	z-index: 10;
 	overflow: hidden;	
 }
 nav h1{
@@ -27,16 +28,16 @@ nav h1 a{
 	text-decoration: none;
 }
 
-nav ul{
+nav ul.nav-buttons{
 	position: relative;
 	right:15%;
 	list-style-type: none;
 	float:right;
 }
-nav ul li{
+nav ul.nav-buttons li{
 	float:left;
 }
-nav ul li a{
+nav ul.nav-buttons li a{
 	padding:1.45em 2em;
 	font-family: Roboto,san-serif;
 	display:block;
@@ -46,12 +47,12 @@ nav ul li a{
 	transition: background-color .3s;
 }
 
-nav ul li a i{
+nav ul.nav-buttons li a i{
 	font-size:24px;
 	transition:color 0.3s;
 }
 
-nav ul li a:hover > i{
+nav ul.nav-buttons li a:hover > i{
 	color: var(--sred);
 }
 
@@ -85,6 +86,65 @@ nav #nav-account span{
 	font-size:20px;
 	padding:0% 0% 0% 2%;
 }
+
+nav .account-dropdown{
+	list-style-type: none;
+	background-color: white;
+	border:2px solid var(--pblue);
+	position: fixed;
+	right:8%;
+	top:10.9%;
+	border-bottom-right-radius: 15px;
+	border-bottom-left-radius: 15px;
+	overflow: hidden;
+	display: none;
+}
+
+nav .account-dropdown li a{
+	display: block;	
+	padding: 0.8em 2.8em;
+	text-decoration: none;
+	color:black;
+	font-size: 1em;
+	font-family: Roboto;
+	transition: background-color .2s;
+}
+
+nav .account-dropdown li:last-of-type > a{
+	border-bottom-right-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+
+nav .account-dropdown li a:hover{
+	background-color: var(--pblue);
+	color:white;
+}
+
+.error{
+	position: fixed;
+	top:0%;
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0,0,0,0.5);
+	height:100%;
+	width:100%;
+	z-index: 1000;
+	overflow: hidden;
+	height: 0%;
+	transition: height .3s;
+}
+
+.error h1 {
+	background-color: white;
+	padding:3em 3em;
+	font-size: 2em;
+	font-family: Roboto;
+	color:red;
+	border-radius: 18px;
+	box-shadow: 0px 0px 40px black;
+}
+
 #left-bar{
 	position:fixed;
 	left:6%;
@@ -179,7 +239,7 @@ nav #nav-account span{
 
 #search-bar{
 	position:fixed;
-	margin:-5% 10% 0% 24%;
+	margin:-5% 10% 2% 24%;
 	width:56%;
 }
 
@@ -320,6 +380,7 @@ nav #nav-account span{
 	background-color: rgb(230,230,230);
 	height:0%;
 	display: none;
+	overflow: hidden;
 	transition: height 0.2s;
 }
 
