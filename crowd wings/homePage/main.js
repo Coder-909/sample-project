@@ -101,6 +101,7 @@ let data = [
 			"Ayush"
 		],
 		comment:0,
+		votedby:["Gamer","Vimal","Chris"],
 		ques:"Which is the best programming language for machine learning",
 		ques_options:[
 			{
@@ -242,7 +243,7 @@ for (var i = 0; i < data.length; i++) {
 	total_votes.innerText = tv + " votes";
 	quesBox.appendChild(total_votes)
 
-	let quesOptions = document.createElement("div");
+	let quesOptions = document.createElement("form");
 	quesOptions.setAttribute("class", "ques-options");
 
 	for(let j = 0; j < data[i].ques_options.length;j++){
@@ -374,10 +375,10 @@ function userLikedIndex(i){
 	return isLiked;
 }
 
-function searchData(id){
+function searchData(object,id){
 	let quesIndex = 0;
-	for(let i = 0; i< data.length;i++){
-		if(data[i].id == id){
+	for(let i = 0; i< object.length;i++){
+		if(object[i].id == id){
 			quesIndex = i;
 		}
 	}
@@ -420,6 +421,10 @@ error.addEventListener('click', (e) => {
 
 // Chaning the polling by putting event listeners on quesboxes
 const quesBox = document.getElementsByClassName("ques-box");
+
+//change here
+let prevAction = [];
+//change here
 
 function wrapper(data,isLogedIn,currentUser){
 	for(let i = 0;i<quesBox.length;i++){
@@ -482,24 +487,54 @@ function wrapper(data,isLogedIn,currentUser){
 				error.style.height = "100%";
 			}
 		})
+		//change here
+		prevAction.push({
+			id: data[i].id,
+			selectedOption:0
+		})	
 
 		for(j = 0; j < choices.length;j++){	
 			choices[j].addEventListener('click',(e) => {
 				if(isLogedIn){
-					addRandomStyle(choices);
-					selectedStyle(e);
+					if(data[i].votedby.indexOf(currentUser) > -1){
+						console.log(data[i].ques_options[prevAction[i].selectedOption]);
+						data[i].ques_options[prevAction[i].selectedOption].votes -= 1;
+						console.log(data[i].ques_options[prevAction[i].selectedOption]);
+						addRandomStyle(choices);
+						selectedStyle(e);
 
-					let quesIndex = searchData(e.target.parentElement.parentElement.getAttribute("id"));
-					let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
-					data[quesIndex].ques_options[choiceIndex].votes += 1;
+						let quesIndex = searchData(data,e.target.parentElement.parentElement.getAttribute("id"));
+						let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
+						data[quesIndex].ques_options[choiceIndex].votes += 1;
+						prevAction[searchData(
+							data,
+							e.target.parentElement.parentElement.getAttribute("id")
+						)].selectedOption = (e.target.getAttribute("class")).split(" ")[1];
+
+						changePolls(choices,quesIndex);
+					}else {
+						addRandomStyle(choices);
+						selectedStyle(e);
+
+						let quesIndex = searchData(data,e.target.parentElement.parentElement.getAttribute("id"));
+						let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
+						data[quesIndex].ques_options[choiceIndex].votes += 1;
 
 
-					let total_votes = totalVotes(i);
-					console.log(quesIndex)
-					let spanTotalVotes = document.getElementsByClassName("	totalVotes")[quesIndex];
-					spanTotalVotes.innerText = total_votes + " votes";
+						let total_votes = totalVotes(i);
+						let spanTotalVotes = document.getElementsByClassName("	totalVotes")[quesIndex];
+						spanTotalVotes.innerText = total_votes + " votes";
 
-					changePolls(choices,quesIndex);
+						data[i].votedby.push(currentUser);
+						prevAction[searchData(
+							data,
+							e.target.parentElement.parentElement.getAttribute("id")
+						)].selectedOption = (e.target.getAttribute("class")).split(" ")[1]
+
+						console.log(prevAction);
+						changePolls(choices,quesIndex);
+					}
+					//change here
 				}else{
 					error.style.height = "100%";
 				}

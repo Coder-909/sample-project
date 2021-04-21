@@ -111,8 +111,8 @@ nav .account-dropdown li a{
 }
 
 nav .account-dropdown li:last-of-type > a{
-	border-bottom-right-radius: 15px;
-	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 
 nav .account-dropdown li a:hover{
@@ -259,6 +259,32 @@ nav .account-dropdown li a:hover{
 	border:1px solid var(--sred);
 	box-shadow:0px 0px 30px 0px var(--sred);
 }	
+
+/*change here*/
+
+#search-bar .search-results{
+	background-color: rgba(255,255,255,1);
+	margin:0% 0% 0% 2%;
+	border-bottom:1px solid rgba(0,0,0,0.4);
+	border-left:1px solid rgba(0,0,0,0.4);
+	border-right:1px solid rgba(0,0,0,0.4);
+	z-index: 10;
+}
+
+#search-bar .search-results ul{
+	list-style-type: none;
+}
+
+#search-bar .search-results ul li{
+	padding:0.8em 1.5em;
+	font-family: Roboto;
+	transition: background-color .2s;
+}
+
+#search-bar .search-results ul li:hover{
+	background-color: rgba(100,100,100,0.2)
+}
+/*change here*/
 
 #ques-area{
 	display:grid;
