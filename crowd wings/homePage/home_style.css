@@ -397,8 +397,12 @@ nav .account-dropdown li a:hover{
 	color:white;
 }
 
+.ques-box .graphs{
+	margin:-2em 9em -3em 2em;
+}
+
 .ques-box .ques-l-c{
-	padding:0.2em 1em 0.7em 1.8em;
+	padding:0em 1em 0.7em 1.8em;
 }
 
 .ques-box .ques-l-c a{

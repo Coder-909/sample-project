@@ -270,6 +270,11 @@ for (var i = 0; i < data.length; i++) {
 
 	quesBox.appendChild(quesOptions);
 
+	let graph = document.createElement("canvas");
+	graph.className = "graphs";
+
+	quesBox.appendChild(graph);
+
 	let queslc = document.createElement("div");
 	queslc.setAttribute("class","ques-l-c");
 	
@@ -361,7 +366,7 @@ for (var i = 0; i < data.length; i++) {
 }
 
 function addRandomStyle(elements){
-	let colors = randomColor();
+	let colors = randomColor(elements.length);
 	for(let i = 0; i<elements.length-1;i++){
 		elements[i].style.background = colors[i];
 		elements[i].style.color = "black";
@@ -397,18 +402,18 @@ function searchData(object,id){
 	return quesIndex;
 }
 
-function randomColor(){
+function randomColor(num){
 	let arr = ["#8AFF19","#00EAFF","#FFB321","#2475FF","#607D8B","#11FF21","#F84EFF"]
 
 	var currentIndex = arr.length, temporaryValue, randomIndex;
 
   	// While there remain elements to shuffle...
-  	while (0 !== currentIndex) {
-	    randomIndex = Math.floor(Math.random() * currentIndex);
-	    currentIndex -= 1;
-	    temporaryValue = arr[currentIndex];
-	    arr[currentIndex] = arr[randomIndex];
-	    arr[randomIndex] = temporaryValue;
+  	for(let i = 0;i< num;i++){
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+		    temporaryValue = arr[currentIndex];
+		    arr[currentIndex] = arr[randomIndex];
+		    arr[randomIndex] = temporaryValue;
 	}	
   	return arr;
 }
@@ -531,6 +536,8 @@ function wrapper(data,isLogedIn,currentUser){
 					voteBtn.style.cursor = "not-allowed";
 
 					changePolls(choices,i);
+					console.log(data[i])
+					graph(i);
 				}
 			}else{
 				error.style.height = "100%";
@@ -563,3 +570,60 @@ function wrapper(data,isLogedIn,currentUser){
 }
 
 wrapper(data,true,currentUser);
+
+function graph(i){
+	let quesOptions = [];
+	let optionsValue = [];
+	let ranCol = randomColor(data[i].ques_options.length);
+	for(let j =0; j < data[i].ques_options.length;j++){
+		
+		quesOptions.push(data[i].ques_options[j].choice);
+		optionsValue.push(data[i].ques_options[j].votes);
+	}	
+	let graph = document.getElementsByClassName("graphs")[i];
+	graph.innerText = "";
+	graph.getContext("2d");
+
+	console.log(Chart.defaults);
+	
+	let chart = new Chart(graph, {
+		type:"pie",
+		data:{
+			labels:[...quesOptions],
+			datasets:[{
+				label:"Population",
+				data:[...optionsValue],
+				backgroundColor:[...ranCol],
+				borderWidth:1,
+				borderColor:"white",
+				hoverBorderWidth:8
+			}]
+		},
+		options: {
+	        plugins: {
+	        	title:{	
+					display:true,
+					text:data[i].ques,
+					align:"center",
+					padding:{
+						bottom:-60
+					},
+					font:{
+						size:20
+					}
+	        	},
+	            legend: {
+	            	position:"right",
+	                labels: {
+	                    font: {
+	                        size: 18
+	                    }
+	                }
+	            }
+	        }
+   		}
+	});
+}
+for(let i = 0;i<data.length;i++){
+	graph(i);
+}
