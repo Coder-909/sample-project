@@ -369,6 +369,33 @@ nav .account-dropdown li a:hover{
 	color:black;
 	transition: width 0.5s,background-color 0.3s;
 }
+.ques-box .ques-options label .radio{
+	visibility: hidden;
+	opacity: 0;
+}
+
+.ques-box .ques-options .vote-btn{
+	background-color: white;
+	cursor: pointer;
+	font-weight: bold;
+	border:2px solid var(--pblue);
+	border-radius: 18px;
+	padding: 0.5em 1em;
+	color:var(--pblue);
+	font-family: Roboto;
+	font-size: 1.2em;
+	width:20%;
+	transition: background-color .2s;
+}
+
+.ques-box .ques-options .vote-btn:focus{
+	border:none;
+}
+
+.ques-box .ques-options .vote-btn:hover{
+	background-color: var(--pblue);
+	color:white;
+}
 
 .ques-box .ques-l-c{
 	padding:0.2em 1em 0.7em 1.8em;

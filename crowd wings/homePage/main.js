@@ -15,7 +15,7 @@ let data = [
 			"John"
 		],
 		comment:0,
-		votedby:["Gamer","Vimal","Chris"],
+		votedby:["Gamer","Vimal","Chris","Ayush"],
 		ques:"When do think covid-19 cases will start declining?",
 		ques_options:[
 			{
@@ -251,8 +251,22 @@ for (var i = 0; i < data.length; i++) {
 		choice.className = "choice " + (data[i].ques_options[j].id).toString();
 		choice.setAttribute("votes",data[i].ques_options[j].votes);
 		choice.innerText = data[i].ques_options[j].choice;
-		quesOptions.appendChild(choice);
+
+		let radio = document.createElement("input");
+		radio.setAttribute("type","radio");
+		radio.setAttribute("name",data[i].id);
+		radio.setAttribute("value",data[i].ques_options[j].choice);
+
+		radio.className = "radio";
+		choice.appendChild(radio);
+	 	quesOptions.appendChild(choice);
 	}
+
+	let voteBtn = document.createElement("button");
+	voteBtn.setAttribute("type","submit"); 
+	voteBtn.className = "vote-btn";
+	voteBtn.innerText = "Vote";
+	quesOptions.appendChild(voteBtn);
 
 	quesBox.appendChild(quesOptions);
 
@@ -346,11 +360,9 @@ for (var i = 0; i < data.length; i++) {
 	quesArea.appendChild(quesBox);
 }
 
-
-
 function addRandomStyle(elements){
 	let colors = randomColor();
-	for(let i = 0; i<elements.length;i++){
+	for(let i = 0; i<elements.length-1;i++){
 		elements[i].style.background = colors[i];
 		elements[i].style.color = "black";
 		elements[i].style.boxShadow = "";
@@ -422,10 +434,6 @@ error.addEventListener('click', (e) => {
 // Chaning the polling by putting event listeners on quesboxes
 const quesBox = document.getElementsByClassName("ques-box");
 
-//change here
-let prevAction = [];
-//change here
-
 function wrapper(data,isLogedIn,currentUser){
 	for(let i = 0;i<quesBox.length;i++){
 		let choices = quesBox[i].childNodes[3].childNodes;
@@ -452,7 +460,6 @@ function wrapper(data,isLogedIn,currentUser){
 		//Adding event listener to like button
 		like_btn.addEventListener('click', () => {
 			if(isLogedIn){
-
 				if(data[i].likes.indexOf(currentUser) > -1){
 					data[i].likes.splice(data[i].likes.indexOf(currentUser),1);
 					likes.innerText = `${data[i].likes.length} likes`;
@@ -474,72 +481,84 @@ function wrapper(data,isLogedIn,currentUser){
 		// Adding event listener on comment button
 		let openCommentSection = document.getElementsByClassName("open-comment-section")[i];
 		let commentSection = document.getElementsByClassName("comment-section")[i];
+		let commentSymbol = openCommentSection.querySelector(".fa-comments");
 		openCommentSection.addEventListener('click', () => {
 			if(isLogedIn){
 				if(	commentSection.style.display === "block"){
 					commentSection.style.height = '0%';
 					commentSection.style.display = "none";
+					commentSymbol.style.color = "grey";
 				}else{
 					commentSection.style.height = "auto";
 					commentSection.style.display = "block";
+					commentSymbol.style.color = "var(--sred)";
 				}
 			}else{
 				error.style.height = "100%";
 			}
 		})
+
 		//change here
-		prevAction.push({
-			id: data[i].id,
-			selectedOption:0
-		})	
+
+		let quesOptions = document.getElementsByClassName("ques-options")[i];
+		let voteBtn = document.getElementsByClassName("vote-btn")[i];
+
+		if(data[i].votedby.indexOf(currentUser) > -1){
+			voteBtn.disabled = true;
+			voteBtn.style.cursor = "not-allowed";
+		}else{
+			voteBtn.disabled = false;
+		}
+
+		quesOptions.addEventListener("submit", (e) => {
+			e.preventDefault();
+			if(isLogedIn){
+				let optionIndex = 0;
+				if(data[i].votedby.indexOf(currentUser) > -1){
+					
+				}else{
+					for(let j = 0;j<e.target.length;j++){
+						if(e.target[j].checked){
+							optionIndex = j;
+						}
+					}
+					data[i].ques_options[optionIndex].votes += 1;
+					data[i].votedby.push(currentUser);
+					let tvSpan = document.getElementsByClassName("totalVotes")[i];
+					tvSpan.innerText = `${totalVotes(i)} votes`; 
+
+					voteBtn.disabled = true;
+					voteBtn.style.cursor = "not-allowed";
+
+					changePolls(choices,i);
+				}
+			}else{
+				error.style.height = "100%";
+			}
+
+		})
 
 		for(j = 0; j < choices.length;j++){	
 			choices[j].addEventListener('click',(e) => {
-				if(isLogedIn){
-					if(data[i].votedby.indexOf(currentUser) > -1){
-						console.log(data[i].ques_options[prevAction[i].selectedOption]);
-						data[i].ques_options[prevAction[i].selectedOption].votes -= 1;
-						console.log(data[i].ques_options[prevAction[i].selectedOption]);
-						addRandomStyle(choices);
-						selectedStyle(e);
-
-						let quesIndex = searchData(data,e.target.parentElement.parentElement.getAttribute("id"));
-						let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
-						data[quesIndex].ques_options[choiceIndex].votes += 1;
-						prevAction[searchData(
-							data,
-							e.target.parentElement.parentElement.getAttribute("id")
-						)].selectedOption = (e.target.getAttribute("class")).split(" ")[1];
-
-						changePolls(choices,quesIndex);
-					}else {
-						addRandomStyle(choices);
-						selectedStyle(e);
-
-						let quesIndex = searchData(data,e.target.parentElement.parentElement.getAttribute("id"));
-						let choiceIndex = (e.target.getAttribute("class")).split(" ")[1];
-						data[quesIndex].ques_options[choiceIndex].votes += 1;
-
-
-						let total_votes = totalVotes(i);
-						let spanTotalVotes = document.getElementsByClassName("	totalVotes")[quesIndex];
-						spanTotalVotes.innerText = total_votes + " votes";
-
-						data[i].votedby.push(currentUser);
-						prevAction[searchData(
-							data,
-							e.target.parentElement.parentElement.getAttribute("id")
-						)].selectedOption = (e.target.getAttribute("class")).split(" ")[1]
-
-						console.log(prevAction);
-						changePolls(choices,quesIndex);
+				for(let k = 0;k<choices.length;k++){
+					if(e.target == choices[k]){
+						if(isLogedIn){
+							if(data[i].votedby.indexOf(currentUser) > -1){
+								alert("Sorry, you have already voted on this, you cannot vote again");
+							}else {
+								addRandomStyle(choices);
+								selectedStyle(e);
+							}
+						}else{
+							error.style.height = "100%";
+						}
 					}
-					//change here
-				}else{
-					error.style.height = "100%";
 				}
 			})
 		}
+
+		//change here
+		
 	}
 }
 
